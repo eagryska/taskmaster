@@ -2,16 +2,33 @@ package com.allstate.models;
 
 import org.aspectj.apache.bcel.generic.InstructionCP;
 
+import javax.persistence.*;
 import java.util.Date;
 
+@Entity
+@Table(name = "tasks")
 public class Task {
 
+    @Id
+    @GeneratedValue
     private int id;
+
     private String name;
+
     private String category;
+
+    @Temporal(TemporalType.DATE)
     private Date due;
+
+    @Column(name = "is_complete", columnDefinition = "BIT", length = 1)
     private boolean isComplete;
+
+    @Column(name = "created_at", insertable = true, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+
+    @Column(name = "updated_at")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
     public Task() {
@@ -75,6 +92,7 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
+    @PreUpdate
     public void UpdateTime() {
         this.updatedAt = new Date();
     }
